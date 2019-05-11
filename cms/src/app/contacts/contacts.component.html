@@ -1,10 +1,16 @@
 <div class="container">
   <div class="col-md-5">
-    <cms-list></cms-list>
+    <cms-list
+    (contactWasSelected)="selectedContact = $event"></cms-list>
   </div>
   <div class="col-md-1">
   </div>
-  <div class="col-md-4">
-    <cms-detail></cms-detail>
+  <div class="col-md-5">
+    <cms-detail
+    *ngIf="selectedContact; else infoText"
+    [contact]="selectedContact"></cms-detail>
+    <ng-template #infoText>
+      <p>Please select a Contact</p>
+    </ng-template>
   </div>
 </div>

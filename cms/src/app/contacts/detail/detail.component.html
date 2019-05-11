@@ -1,8 +1,8 @@
 <div class="row panel panel-default">
-  <div class="col-xs-12 panel-heading">
-    <h1 class="media-heading">Name</h1>
-    <img src="" alt="" class="img-responsive">
-    <div class="btn-group pull-right">
+  <div class="col-xs-12 panel-heading clearfix">
+    <h1 class="media-heading">{{ contact?.name }}</h1>
+    <img [src]="contact?.imageUrl" alt="{{ contact?.name }}" class="img-responsive">
+    <div class="btn-toolbar pull-right">
       <button type="button" class="btn btn-primary">Edit
       </button>
       <button type="button" class="btn btn-danger">Delete
@@ -11,10 +11,10 @@
   </div>
   <div class="panel-body">
     <div class="col-xs-12">
-      Email:
+      Email: {{ contact?.email }}
     </div>
     <div class="col-xs-12">
-      Phone:
+      Phone: {{ contact?.phone }}
     </div>
   </div>
 </div>
