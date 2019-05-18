@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Messages } from '../messages.model';
+import { Message } from '../messages.model';
 
 @Component({
   selector: 'cms-message-list',
@@ -7,10 +7,10 @@ import { Messages } from '../messages.model';
   styleUrls: ['./message-list.component.css']
 })
 export class MessageListComponent implements OnInit {
-  message: Messages[] = [
-    new Messages(1, 'Test', 'This is a test message', 'Bro. Thanye'),
-    new Messages(2, 'Something', 'The grades for this assignemnt have been posted', 'Bro. Jackson'),
-    new Messages(3, 'Grades', 'When is assignment 3 due?', 'Leah')
+  messages: Message[] = [
+    new Message(1, 'Test', 'This is a test message', 'Bro. Thanye'),
+    new Message(2, 'Something', 'The grades for this assignemnt have been posted', 'Bro. Jackson'),
+    new Message(3, 'Grades', 'When is assignment 3 due?', 'Leah')
   ]
 
   constructor() { }
@@ -18,8 +18,8 @@ export class MessageListComponent implements OnInit {
   ngOnInit() {
   }
 
-  onAddMsg (message: Messages) {
-    this.message.push(message);
+  onAddMsg (message: Message) {
+    this.messages.push(message);
   }
 
 }

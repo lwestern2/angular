@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Messages } from './messages.model';
+import { Message } from './messages.model';
 
 @Component({
   selector: 'cms-messages',
