@@ -1,13 +1,10 @@
-export class Message {
-    public id: number;
-    public subject: string;
-    public msgText: string;
-    public sender: string;
+import { Injectable } from '@angular/core';
 
-    constructor(id: number, subject: string, msg: string, sender: string) {
-        this.id = id;
-        this.subject = subject;
-        this.msgText = msg;
-        this.sender = sender;
-    }
+@Injectable()
+export class Message {
+
+    constructor(public id: string,
+        public subject: string,
+        public msgText: string,
+        public sender: string){}
 }

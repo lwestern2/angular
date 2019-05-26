@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Doc } from './docs.model';
+import { DocService } from './docs.service';
 
 @Component({
   selector: 'cms-docs',
@@ -9,9 +10,13 @@ import { Doc } from './docs.model';
 export class DocsComponent implements OnInit {
   selectedDoc: Doc;
 
-  constructor() { }
+  constructor(private docService: DocService) { }
 
   ngOnInit() {
+    this.docService.docSelectedEvent.subscribe(
+      (doc: Doc) => {
+        this.selectedDoc = doc;
+      }
+    )
   }
-
 }

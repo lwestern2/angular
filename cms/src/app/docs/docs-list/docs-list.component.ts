@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Doc } from '../docs.model';
+import { DocService } from '../docs.service';
 
 @Component({
   selector: 'cms-docs-list',
@@ -7,24 +8,16 @@ import { Doc } from '../docs.model';
   styleUrls: ['./docs-list.component.css']
 })
 export class DocsListComponent implements OnInit {
-  @Output() selectedDocEvent = new EventEmitter<Doc>();
-
   docs: Doc[] = [];
 
-  constructor() { }
+  constructor(private docService: DocService) { }
 
   ngOnInit() {
-    this.docs = [
-    new Doc(1, 'CIT 260 - O.O Programming', 'Some class description', 'https://content.byui.edu/file/22c0260d-e1b7-43a2-8903-8d8f948041ee/4/syllabus.html', 'none'),
-    new Doc(2, 'CIT 366 - Full Stack Development', 'Some class description', 'https://content.byui.edu/file/22c0260d-e1b7-43a2-8903-8d8f948041ee/4/syllabus.html', 'none'),
-    new Doc(3, 'CIT 425 - Data Warehousing', 'Some class description', 'https://content.byui.edu/file/22c0260d-e1b7-43a2-8903-8d8f948041ee/4/syllabus.html', 'none'),
-    new Doc(1, 'CIT 460 - Enterprise Development', 'Some class description', 'https://content.byui.edu/file/22c0260d-e1b7-43a2-8903-8d8f948041ee/4/syllabus.html', 'none'),
-    new Doc(1, 'CIT 495 - Capstone', 'Some class description', 'https://content.byui.edu/file/22c0260d-e1b7-43a2-8903-8d8f948041ee/4/syllabus.html', 'none')
-  ];
+    this.docs = this.docService.getDocs();
   }
 
   onSelectedDoc(docs: Doc) {
-    this.selectedDocEvent.emit(docs);
+    this.docService.docSelectedEvent.emit(docs);
   }
 
 
