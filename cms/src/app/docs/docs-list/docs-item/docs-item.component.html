@@ -1,5 +1,6 @@
-<a class="list-group-item clearfix documentDiv" 
-(click)="onSelected()">
+<a [routerLink]="[doc.id]"
+routerLinkActive="active" 
+class="list-group-item clearfix documentDiv">
   <div class="pull-left">
     <h5 class="list-group-item-heading">{{ doc.name }}</h5>
   </div>

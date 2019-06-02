@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Contact } from '../contact.model';
 import { ContactService } from '../contact.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cms-list',
@@ -8,17 +9,19 @@ import { ContactService } from '../contact.service';
   styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit {
-
   contacts: Contact[] = [];
+  sub: Subscription;
 
-  constructor(private contactService: ContactService) { }
+  constructor(private contactService: ContactService) {
+    this.contacts = this.contactService.getContacts();
+   }
 
   ngOnInit() {
-    this.contacts = this.contactService.getContacts();
-  }
-
-  onContactSelected(contact: Contact){
-    this.contactService.contactSelectedEvent.emit(contact);
+    this.sub = this.contactService.contactChangedEvent.subscribe(
+      (contactList: Contact[]) => {
+        this.contacts = contactList;
+      }
+    );
   }
 
 }

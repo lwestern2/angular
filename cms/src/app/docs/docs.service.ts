@@ -7,6 +7,7 @@ import { MOCKDOCUMENTS } from './MOCKDOCUMENTS';
 })
 export class DocService {
   docSelectedEvent = new EventEmitter<Doc>();
+  docChangedEvent = new EventEmitter<Doc[]>();
 
   private docs: Doc[] = [];
 
@@ -25,5 +26,19 @@ export class DocService {
       }
     }
     return null;
+  }
+
+  deleteDoc(doc: Doc) {
+    if (doc === null || doc === undefined) {
+      return;
+    }
+
+    const pos = this.docs.indexOf(doc);
+    if (pos < 0) {
+      return;
+    }
+
+    this.docs.splice(pos, 1);
+    this.docChangedEvent.emit(this.docs.slice());
   }
 }

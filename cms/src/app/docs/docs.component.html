@@ -3,11 +3,6 @@
     <cms-docs-list></cms-docs-list>
   </div>
   <div class="col-md-4">
-    <cms-docs-detail
-    *ngIf="selectedDoc; else infoText"
-    [doc]="selectedDoc"></cms-docs-detail>
-    <ng-template #infoText>
-      <p>Please select a Document</p>
-    </ng-template>
+    <router-outlet></router-outlet>
   </div>
 </div>
