@@ -1,6 +1,8 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Doc } from './docs.model';
 import { MOCKDOCUMENTS } from './MOCKDOCUMENTS';
+import {Subject } from 'rxjs';
+import { DocsComponent } from './docs.component';
 
 @Injectable({
   providedIn: 'root'
@@ -8,11 +10,14 @@ import { MOCKDOCUMENTS } from './MOCKDOCUMENTS';
 export class DocService {
   docSelectedEvent = new EventEmitter<Doc>();
   docChangedEvent = new EventEmitter<Doc[]>();
+  docListChangedEvent = new Subject<Doc[]>();
 
   private docs: Doc[] = [];
+  maxDocId: number;
 
   constructor() {
     this.docs = MOCKDOCUMENTS;
+    this.maxDocId = this.getMaxId();
    }
 
    getDocs(): Doc[] {
@@ -28,6 +33,43 @@ export class DocService {
     return null;
   }
 
+  getMaxId(): number {
+    let maxId = 0;
+    for(const doc of this.docs) {
+      const currentId = +doc.id;
+      if (currentId > maxId) {
+        maxId = currentId;
+      }
+    }
+    return maxId;
+  }
+
+  addDoc(newDoc: Doc) {
+    if (!newDoc) {
+      return;
+    }
+
+    this.maxDocId++;
+    newDoc.id = String(this.maxDocId);
+    this.docs.push(newDoc);
+    this.docListChangedEvent.next(this.docs.slice());
+  }
+
+  updateDoc(originalDoc: Doc, updateDoc: Doc) {
+    if (originalDoc === null || updateDoc === null || originalDoc === undefined || updateDoc === undefined) {
+      return;
+    }
+
+    const pos = this.docs.indexOf(originalDoc);
+    if (pos < 0) {
+      return;
+    }
+
+    updateDoc.id = originalDoc.id;
+    this.docs[pos] = updateDoc;
+    this.docListChangedEvent.next(this.docs.slice());
+  }
+
   deleteDoc(doc: Doc) {
     if (doc === null || doc === undefined) {
       return;
@@ -39,6 +81,6 @@ export class DocService {
     }
 
     this.docs.splice(pos, 1);
-    this.docChangedEvent.emit(this.docs.slice());
+    this.docListChangedEvent.next(this.docs.slice());
   }
 }
