@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header.component';
@@ -21,6 +22,7 @@ import { DocViewComponent } from './docs/doc-view/doc-view.component';
 import { DocEditComponent } from './docs/doc-edit/doc-edit.component';
 import { WindRefService } from './wind-ref.service';
 import { EditComponent } from './contacts/edit/edit.component';
+import { DndModule } from 'ng2-dnd';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,10 @@ import { EditComponent } from './contacts/edit/edit.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    FormsModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+    DndModule.forRoot()
   ],
   providers: [WindRefService],
   bootstrap: [AppComponent]

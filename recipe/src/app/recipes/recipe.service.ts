@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
 })
 
 export class RecipeService { //Recipe-service step 1
+  recipesChanged = new Subject<Recipe[]>();
 
     private recipes: Recipe[] = [
         new Recipe(
@@ -31,14 +32,29 @@ export class RecipeService { //Recipe-service step 1
     constructor(private slService: ShoppingListService) {}
 
     getRecipes() { //recipe-event step 1
-        return this.recipes.slice();
+      return this.recipes.slice();
     }
 
     getRecipe(index: number) {
-        return this.recipes[index];
-      }
+      return this.recipes[index];
+    }
 
     addIngredientsToSl(ingredients: Ingredient[]) {
-        this.slService.addIngredients(ingredients);
+      this.slService.addIngredients(ingredients);
+    }
+
+    addRecipe(recipe: Recipe) {
+      this.recipes.push(recipe);
+      this.recipesChanged.next(this.recipes.slice());
+    }
+
+    updateRecipe(index: number, newRecipe: Recipe) {
+      this.recipes[index] = newRecipe;
+      this.recipesChanged.next(this.recipes.slice());
+    }
+
+    deleteRecipe(index: number) {
+      this.recipes.splice(index, 1);
+      this.recipesChanged.next(this.recipes.slice());
     }
 }
