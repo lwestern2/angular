@@ -23,6 +23,8 @@ import { DocEditComponent } from './docs/doc-edit/doc-edit.component';
 import { WindRefService } from './wind-ref.service';
 import { EditComponent } from './contacts/edit/edit.component';
 import { DndModule } from 'ng2-dnd';
+import { FilterPipe } from './contacts/filter.pipe';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -44,11 +46,13 @@ import { DndModule } from 'ng2-dnd';
     DocViewComponent,
     DocEditComponent,
     EditComponent,
+    FilterPipe,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
     AppRoutingModule,
     DndModule.forRoot()
   ],
