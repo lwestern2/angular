@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', "*");
     res.setHeader('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept");
-    res.setHeader('Access-Control-Allow-Methods', "GET, POST, PATCH, DELETE, OPTIONS");
+    res.setHeader('Access-Control-Allow-Methods', "GET, POST, PATCH, DELETE, OPTIONS, PUT, UPDATE");
     next();
 });
 
@@ -35,11 +35,6 @@ app.set('port', port);
 const server = http.createServer(app);
 
 server.listen(port, function() {console.log("API running on localhost: " + port)});
-
-// app.use('/add-student', studentRoutes);
-// app.use('/read-student/:id', studentRoutes);
-// app.use('/update-student/:id', studentRoutes);
-// app.use('/students-list', studentRoutes);
 
 app.post("/add-student", (req, res, next) => {
   const student = new Student({
@@ -59,7 +54,7 @@ app.post("/add-student", (req, res, next) => {
 
 app.get('/students-list', (req, res, next) => {
   Student.find().then(students => {
-    res.status(200).json({
+    res.status(200).send({
         message: 'Students fetched successfully!',
         students: students
     });
@@ -78,7 +73,7 @@ app.get('/read-student/:id', (req, res, next) => {
   });
 });
 
-app.put('/update-student/:id'), ((req, res, next) => {
+app.put('/edit-student/:id'), ((req, res, next) => {
     Student.findByIdAndUpdate(req.params.id, {
       $set: req.body
     }, (error, data) => {
@@ -95,7 +90,7 @@ app.delete("/delete-student/:id", (req, res, next) => {
     Student.deleteOne({_id: req.params.id}).then(result => {
         console.log(result);
         res.status(200).json({
-            message: "student deleted"
+            message: "Student deleted"
         });
     });
 });

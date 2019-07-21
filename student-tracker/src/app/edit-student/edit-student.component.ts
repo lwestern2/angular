@@ -16,6 +16,7 @@ export interface Subject {
 })
 
 export class EditStudentComponent implements OnInit {
+  dataLoaded: Promise<boolean>;
   visible = true;
   selectable = true;
   removable = true;
@@ -28,7 +29,21 @@ export class EditStudentComponent implements OnInit {
   SectioinArray: any = ['CIT 366', 'CS 313', 'CIT 260', 'CIT 360', 'CIT 270'];
 
   ngOnInit() {
-    this.updateBookForm();
+    // this.updateBookForm();
+    var id = this.actRoute.snapshot.paramMap.get('id');
+    console.log(id);
+    this.studentApi.GetStudent(id).subscribe(data => {
+      // console.log(data.subjects)
+      // this.subjectArray = data.subjects;
+      console.log(data.students);
+      this.studentForm = this.fb.group({
+        name: [data.students.name, [Validators.required]],
+        email: [data.email, [Validators.required]],
+        class: [data.class, [Validators.required]],
+        gender: [data.gender]
+      }) 
+      this.dataLoaded = Promise.resolve(true);     
+    })  
   }
 
   constructor(
@@ -38,27 +53,17 @@ export class EditStudentComponent implements OnInit {
     private actRoute: ActivatedRoute,
     private studentApi: ApiService
   ) { 
-    var id = this.actRoute.snapshot.paramMap.get('id');
-    this.studentApi.GetStudent(id).subscribe(data => {
-      console.log(data.subjects)
-      this.subjectArray = data.subjects;
-      this.studentForm = this.fb.group({
-        student_name: [data.student_name, [Validators.required]],
-        student_email: [data.student_email, [Validators.required]],
-        section: [data.section, [Validators.required]],
-        gender: [data.gender]
-      })      
-    })    
+      
   }
 
-  updateBookForm() {
-    this.studentForm = this.fb.group({
-      student_name: ['', [Validators.required]],
-      student_email: ['', [Validators.required]],
-      section: ['', [Validators.required]],
-      gender: ['Male']
-    })
-  }
+  // updateStudentForm() {
+  //   this.studentForm = this.fb.group({
+  //     name: ['', [Validators.required]],
+  //     email: ['', [Validators.required]],
+  //     class: ['', [Validators.required]],
+  //     gender: ['Male']
+  //   })
+  // }
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
